@@ -32,15 +32,17 @@ while [ -z "$VERSION" ]; do
     printf 'Version: '
     read -r VERSION
 done
-until [ "$ARCH" = 'amd64' ] || [ "$ARCH" = 'i686' ] || [ "$ARCH" = 'aarch64' ]; do
+until [ "$ARCH" = 'amd64' ] || [ "$ARCH" = 'i686' ] || [ "$ARCH" = 'aarch64' ] || [ "$ARCH" = 'raspi-aarch64' ]; do
     echo '1 amd64'
     echo '2 i686'
     echo '3 aarch64'
-    printf 'Which architecture? amd64 (default), i686, or aarch64 '
+    echo '4 raspi-aarch64'
+    printf 'Which architecture? amd64 (default), i686, aarch64, or raspi-aarch64 '
     read -r input_arch
     [ "$input_arch" = 1 ] && ARCH='amd64'
     [ "$input_arch" = 2 ] && ARCH='i686'
     [ "$input_arch" = 3 ] && ARCH='aarch64'
+    [ "$input_arch" = 4 ] && ARCH='raspi-aarch64'
     [ -z "$input_arch" ] && ARCH='amd64'
 done
 
@@ -58,6 +60,10 @@ elif [ "$ARCH" = 'i686' ]; then
 elif [ "$ARCH" = 'aarch64' ]; then
     ROOTFS='https://dl-cdn.alpinelinux.org/alpine/v3.17/releases/aarch64/alpine-minirootfs-3.17.3-aarch64.tar.gz'
     PALERA1N='https://github.com/palera1n/palera1n/releases/download/v2.0.0-beta.6.2/palera1n-linux-arm64'
+elif [ "$ARCH" = 'raspi-aarch64' ]; then
+    ROOTFS='https://dl-cdn.alpinelinux.org/alpine/v3.17/releases/aarch64/alpine-rpi-3.17.3-aarch64.tar.gz'
+    PALERA1N='https://github.com/palera1n/palera1n/releases/download/v2.0.0-beta.6.2/palera1n-linux-arm64'
+
 fi
 
 # Clean up previous attempts
